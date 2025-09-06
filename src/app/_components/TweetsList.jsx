@@ -1,22 +1,22 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import { fetchTweets } from "../_lib/tweets";
 import Tweet from "./Tweet";
 import { useRealtime } from "../_lib/useRealTime";
 import Input from "./Input";
 import { filterButtons } from "../_lib/data";
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
-const TweetsList = () => {
+export default function TweetsList({ initialParams }) {
   const [tweets, setTweets] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState("");
-  const [filter, setFilter] = useState("All");
+  const [search, setSearch] = useState(initialParams.search || "");
+  const [filter, setFilter] = useState(initialParams.filter || "All");
+
   const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
 
-  // بارگذاری اولیه tweets
   useEffect(() => {
     const loadTweets = async () => {
       const allTweets = await fetchTweets(20);
@@ -26,16 +26,6 @@ const TweetsList = () => {
     loadTweets();
   }, []);
 
-  // بازیابی state از URL هنگام لود اولیه
-  useEffect(() => {
-    const urlSearch = searchParams.get("search") || "";
-    const urlFilter = searchParams.get("filter") || "All";
-
-    setSearch(urlSearch);
-    setFilter(urlFilter);
-  }, [searchParams]);
-
-  // به‌روزرسانی URL وقتی state تغییر می‌کند (با debouncing)
   useEffect(() => {
     const handler = setTimeout(() => {
       const params = new URLSearchParams();
@@ -43,42 +33,40 @@ const TweetsList = () => {
       if (filter !== "All") params.set("filter", filter);
 
       const queryString = params.toString();
-      const currentQuery = searchParams.toString();
-
-      // فقط اگر query تغییر کرده، آپدیت کن
-      if (queryString !== currentQuery) {
-        router.push(`${pathname}${queryString ? `?${queryString}` : ""}`, {
-          scroll: false,
-        });
-      }
-    }, 300); // تأخیر 300ms
+      router.push(`${pathname}${queryString ? `?${queryString}` : ""}`, {
+        scroll: false,
+      });
+    }, 300);
 
     return () => clearTimeout(handler);
-  }, [search, filter, router, pathname, searchParams]);
+  }, [search, filter, router, pathname]);
 
   useRealtime(setTweets);
 
   if (loading) return <p>Loading...</p>;
 
-  // ✅ اعمال فیلتر و سرچ روی tweets
   const filteredTweets = tweets
     .filter((tweet) =>
       search ? tweet.content.toLowerCase().includes(search.toLowerCase()) : true
     )
     .sort((a, b) => {
-      if (filter === "mostLike") return b.likeCount - a.likeCount; // بیشترین لایک
+      if (filter === "mostLike") return b.likeCount - a.likeCount;
       if (filter === "NewTweets")
-        return new Date(b.created_at) - new Date(a.created_at); // جدیدترین
+        return (
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+        );
       if (filter === "OldTweets")
-        return new Date(a.created_at) - new Date(b.created_at); // قدیمی‌ترین
-      return 0; // All
+        return (
+          new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+        );
+      return 0;
     });
 
   return (
     <div className="my-[-20px]">
       <div className="p-2">
         <Input
-          lable="search amoung tweets"
+          lable="search among tweets"
           className="mb-3"
           placeHolder="search..."
           value={search}
@@ -103,6 +91,4 @@ const TweetsList = () => {
       ))}
     </div>
   );
-};
-
-export default TweetsList;
+}
