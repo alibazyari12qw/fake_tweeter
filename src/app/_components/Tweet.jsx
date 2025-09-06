@@ -45,7 +45,7 @@ const Tweet = ({ tweet, setTweets }) => {
         <div className="flex justify-between items-center text-gray-400 mt-2">
           <Link href={`/tweet/${tweet?.id}`}>
             <span className="flex items-center gap-1 hover:text-blue-400 cursor-pointer transition-colors">
-              <FiMessageCircle size={18} /> {tweet?.commentCount || 0}
+              <FiMessageCircle size={18} /> {tweet?.commentـcount || 0}
             </span>
           </Link>
           <LikeBtn tweet={tweet} setTweets={setTweets} />
