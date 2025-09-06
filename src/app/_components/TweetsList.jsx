@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter, usePathname } from "next/navigation";
 import { fetchTweets } from "../_lib/tweets";
 import Tweet from "./Tweet";
 import { useRealtime } from "../_lib/useRealTime";
 import Input from "./Input";
 import { filterButtons } from "../_lib/data";
-import { useRouter, usePathname } from "next/navigation";
 
 export default function TweetsList({ initialParams }) {
   const [tweets, setTweets] = useState([]);
@@ -26,6 +26,7 @@ export default function TweetsList({ initialParams }) {
     loadTweets();
   }, []);
 
+  // به‌روزرسانی URL هنگام تغییر state
   useEffect(() => {
     const handler = setTimeout(() => {
       const params = new URLSearchParams();
