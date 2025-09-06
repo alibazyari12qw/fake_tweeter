@@ -1,0 +1,33 @@
+@import "tailwindcss";
+/* برای مرورگرهای WebKit */
+/* اسکرول مدرن */
+/* برای مرورگرهای WebKit */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f0f0f0; /* حالت روشن */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #333; /* حالت تیره */
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* حالت تاریک (dark mode) */
+.dark .custom-scrollbar::-webkit-scrollbar-track {
+  background: #111;
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: gray;
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
+}
