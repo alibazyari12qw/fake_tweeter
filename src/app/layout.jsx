@@ -1,11 +1,9 @@
 import { Toaster } from "react-hot-toast";
 import LeftAndRightLayout from "../app/_components/LeftAndRightLayout";
 import "./globals.css";
-// import { Geist } from "next/font/google";
 import { AuthProviedr } from "./_context/AuthContext";
-// const geist = Geist({
-//   subsets: ["latin"],
-// });
+import { Inter } from "next/font/google";
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "media",

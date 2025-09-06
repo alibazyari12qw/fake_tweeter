@@ -1,10 +1,12 @@
-import React from "react";
+import React, { Suspense } from "react";
 import TweetsList from "./_components/TweetsList";
 
 const page = () => {
   return (
     <div className="mt-7 ">
-      <TweetsList />
+      <Suspense fallback={<div>در حال بارگذاری...</div>}>
+        <TweetsList />
+      </Suspense>
     </div>
   );
 };

@@ -1,10 +1,12 @@
 import TweetPage from "@/app/_components/TweetPage";
-import React from "react";
+import React, { Suspense } from "react";
 
 const page = () => {
   return (
     <div>
-      <TweetPage />
+      <Suspense fallback={<div>در حال بارگذاری...</div>}>
+        <TweetPage />
+      </Suspense>
     </div>
   );
 };
