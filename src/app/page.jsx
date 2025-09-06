@@ -1,14 +1,12 @@
 import React, { Suspense } from "react";
 import TweetsList from "./_components/TweetsList";
 
-const page = () => {
-  return (
-    <div className="mt-7 ">
-      <Suspense fallback={<div>در حال بارگذاری...</div>}>
-        <TweetsList />
-      </Suspense>
-    </div>
-  );
-};
+const Page = () => (
+  <div className="mt-7 ">
+    <Suspense fallback={<div>در حال بارگذاری...</div>}>
+      <TweetsList />
+    </Suspense>
+  </div>
+);
 
-export default page;
+export default Page;
