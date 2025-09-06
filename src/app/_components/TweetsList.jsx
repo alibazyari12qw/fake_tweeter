@@ -73,13 +73,13 @@ export default function TweetsList({ initialParams }) {
           value={search}
           setValue={setSearch}
         />
-        <div className="flex p-2 items-center justify-center gap-6">
+        <div className="flex flex-wrap p-2 gap-2 justify-center">
           {filterButtons.map((item) => (
             <button
               key={item.buttonName}
-              className={`bg-gray-800 hover:text-white cursor-pointer hover:bg-gray-600 px-3 py-1 rounded-2xl ${
-                filter === item.buttonName ? "text-black bg-white" : ""
-              }`}
+              className={`px-3 py-1 rounded-2xl text-sm sm:text-base md:text-base cursor-pointer
+        bg-gray-800 hover:text-white hover:bg-gray-600
+        ${filter === item.buttonName ? "text-black bg-white" : ""}`}
               onClick={() => setFilter(item.buttonName)}
             >
               {item.buttonName}
